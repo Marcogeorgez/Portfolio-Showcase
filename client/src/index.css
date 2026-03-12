@@ -60,8 +60,8 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
+    --primary: hsl(155.5, 96.7%, 35.7%);
+    --primary-foreground: oklch(13.979% 0.00002 271.152);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
@@ -165,11 +165,14 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+    background-image: linear-gradient(to right, hsl(155 40% 55%), #087584, #077467);
+  }
+  dark.text-gradient-primary {
     background-image: linear-gradient(to right, hsl(155 40% 55%), #67e8f9, #2dd4bf);
   }
 
   .glass-panel {
-    background-color: hsl(var(--background) / 0.95);
+    background-color: var(--background);
     border-color: rgba(255, 255, 255, 0.05);
     box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.4);
     border-width: 1px;
