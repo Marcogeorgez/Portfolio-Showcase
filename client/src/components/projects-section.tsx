@@ -32,7 +32,7 @@ export function ProjectsSection() {
               ?.sort((a, b) => a.order - b.order)
               .map((project, i) => (
                 <motion.div key={project.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group">
-                  <Card className="overflow-hidden bg-card/80 backdrop-blur border-white/10 hover:border-primary/40 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/10 h-full flex flex-col py-0">
+                  <Card className="overflow-hidden bg-card/80 md:backdrop-blur border-white/10 hover:border-primary/40 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/10 h-full flex flex-col py-0">
                     {/* Media Placeholder Area */}
                     <div className="aspect-video bg-background/50 relative overflow-hidden flex items-center justify-center border-b border-white/5">
                       {project.videoUrl ? (

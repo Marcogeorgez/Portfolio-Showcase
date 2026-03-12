@@ -46,7 +46,7 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {passions.map((item, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-              <Card className="bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-colors h-full">
+              <Card className="bg-card/50 md:backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-colors h-full">
                 <CardContent className="p-8">
                   <h3 className="text-xl font-semibold mb-4 text-primary">{item.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{item.description}</p>
