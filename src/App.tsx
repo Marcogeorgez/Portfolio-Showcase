@@ -10,7 +10,7 @@ import { useEffect } from "react";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/Portfolio-Showcase" component={Home} />
       <Route component={NotFound} />
     </Switch>
   );
