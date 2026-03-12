@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   base: "/Portfolio-Showcase/",
+  root: "client",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
