@@ -72,7 +72,7 @@ export const projectsData: Project[] = [
     title: "AI Stock Price Prediction Web App",
     description: "Graduation project: forecasts NYSE stock trends via LSTM neural networks on years of historical data for 1000+ companies, automated data ingestion, cleaning pipeline, and RESTful API.",
     technologies: ["Python", "Flask", "TensorFlow", "MSSQL", "JavaScript", "HTML/CSS"],
-    imageUrl: null,
+    imageUrl: "./predictAi.webp",
     videoUrl: null,
     link: "https://github.com/marcogeorgez/PredictAi",
     order: 5,
