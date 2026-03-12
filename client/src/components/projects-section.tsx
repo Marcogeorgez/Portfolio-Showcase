@@ -36,7 +36,7 @@ export function ProjectsSection() {
                     {/* Media Placeholder Area */}
                     <div className="aspect-video bg-background/50 relative overflow-hidden flex items-center justify-center border-b border-white/5">
                       {project.videoUrl ? (
-                        <video src={project.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <video src={project.videoUrl} autoPlay preload="none" loop muted playsInline controls className="w-full h-full object-cover" />
                       ) : project.imageUrl ? (
                         <img src={project.imageUrl} alt={project.title} className="h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : (
@@ -45,9 +45,6 @@ export function ProjectsSection() {
                           <span className="text-sm font-medium tracking-wider uppercase">Media Placeholder</span>
                         </div>
                       )}
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
 
                     <CardContent className="p-6 flex-1 flex flex-col">

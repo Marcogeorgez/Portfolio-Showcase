@@ -43,7 +43,7 @@ export const projectsData: Project[] = [
     description: "Digitized the company's entire job lifecycle. QuickBooks integration via webhooks; AI agents generate estimates and invoices and handle Google Drive uploads.",
     technologies: ["Blazor WASM", ".NET", "OData", "Hangfire", "QuickBooks API", "PostgreSQL", "AI"],
     imageUrl: null,
-    videoUrl: null,
+    videoUrl: "./ConstructionApp.mp4",
     link: null,
     order: 3,
   },
