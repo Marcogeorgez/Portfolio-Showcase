@@ -24,7 +24,7 @@ export function ExperienceSection() {
           ) : (
             <div className="space-y-12 relative">
               {/* Single continuous timeline line */}
-              <div className="hidden md:block absolute left-1/2 top-1 m-0 bottom-0 w-px bg-white/10 -translate-x-1/2" />
+              <div className="hidden md:block absolute left-1/2 top-1 m-0 bottom-0 w-px bg-black/10 dark:bg-white/10 -translate-x-1/2" />
 
               {experiences
                 ?.sort((a, b) => a.order - b.order)

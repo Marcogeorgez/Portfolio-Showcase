@@ -10,7 +10,7 @@ export function ProjectsSection() {
   const { data: projects, isLoading } = useProjects();
 
   return (
-    <section id="projects" className="py-24 bg-white/[0.02] border-t border-white/5 relative">
+    <section id="projects" className="py-24 bg-white/2 border-t border-white/5 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-8 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -23,7 +23,7 @@ export function ProjectsSection() {
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-[400px] w-full rounded-2xl bg-white/5" />
+              <Skeleton key={i} className="h-100 w-full rounded-2xl bg-white/5" />
             ))}
           </div>
         ) : (
@@ -32,13 +32,13 @@ export function ProjectsSection() {
               ?.sort((a, b) => a.order - b.order)
               .map((project, i) => (
                 <motion.div key={project.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group">
-                  <Card className="overflow-hidden bg-card/80 backdrop-blur border-white/10 hover:border-primary/40 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/10 h-full flex flex-col">
+                  <Card className="overflow-hidden bg-card/80 backdrop-blur border-white/10 hover:border-primary/40 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/10 h-full flex flex-col py-0">
                     {/* Media Placeholder Area */}
                     <div className="aspect-video bg-background/50 relative overflow-hidden flex items-center justify-center border-b border-white/5">
                       {project.videoUrl ? (
                         <video src={project.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : project.imageUrl ? (
-                        <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <img src={project.imageUrl} alt={project.title} className="h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : (
                         <div className="flex flex-col items-center justify-center text-muted-foreground/40 group-hover:text-primary/60 transition-colors duration-500">
                           <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-3">{i % 2 === 0 ? <PlayCircle className="w-8 h-8" /> : <ImageIcon className="w-8 h-8" />}</div>
@@ -47,7 +47,7 @@ export function ProjectsSection() {
                       )}
 
                       {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
 
                     <CardContent className="p-6 flex-1 flex flex-col">

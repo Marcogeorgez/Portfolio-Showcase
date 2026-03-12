@@ -23,7 +23,7 @@ export function Nav() {
   ];
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 border border-white-5 ${scrolled ? "glass-panel py-3" : "bg-transparent py-5"}`}>
+    <header className={`fixed top-0 w-full z-50 ${scrolled ? "glass-panel py-3" : "bg-transparent py-5"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <a href="#" className="flex items-center gap-2 group">

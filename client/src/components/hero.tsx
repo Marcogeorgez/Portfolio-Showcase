@@ -7,8 +7,8 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 bg-grid-pattern z-0" />
-      <div className="glow-orb bg-primary w-[500px] h-[500px] top-[-100px] right-[-100px] sm:hidden md:inline" />
-      <div className="glow-orb bg-indigo-600 w-[400px] h-[400px] bottom-[-100px] left-[-100px]" />
+      <div className="glow-orb bg-primary w-125 h-125 -top-25 -right-25 sm:hidden md:inline" />
+      <div className="glow-orb bg-indigo-600 w-100 h-100 -bottom-25 -left-25" />
       <div className="absolute inset-0 bg-background/80 z-0" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
