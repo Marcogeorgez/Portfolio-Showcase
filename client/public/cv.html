@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marco George | CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+      @media print {
+        .no-print,
+        .no-print *,
+        #save-as-pdf {
+          display: none !important;
+        }
+        html,
+        body {
+          background: white !important;
+        }
+        .page {
+          box-shadow: none !important;
+          margin: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-neutral-200 print:bg-white">
+    <div class="no-print fixed top-4 right-4 z-10">
+      <button
+        id="save-as-pdf"
+        onclick="window.print()"
+        title="Open the print dialog and choose 'Save as PDF'"
+        class="group inline-flex cursor-pointer items-center gap-2.5 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 ring-1 ring-emerald-300/40 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-600/30 hover:from-emerald-400 hover:to-emerald-500 active:translate-y-0 active:shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-90 transition-transform duration-150 group-hover:scale-110" aria-hidden="true">
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+          <rect x="6" y="14" width="12" height="8" rx="1" />
+          <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
+        </svg>
+        Save as PDF
+      </button>
+    </div>
+
+    <div class="page bg-white text-neutral-900 max-w-[820px] mx-auto my-6 shadow-xl min-h-[1000px] p-10 md:p-14 font-sans">
+      <!-- Header -->
+      <div class="flex flex-wrap items-start justify-between gap-4 border-b-2 border-emerald-600/80 pb-6">
+        <div>
+          <h1 class="text-4xl font-extrabold tracking-tight">Marco George</h1>
+          <p class="mt-1 text-lg text-neutral-600">Full-Stack Engineer (.NET &amp; Blazor) | AI Workflow Automation</p>
+        </div>
+        <div class="text-sm text-neutral-600 space-y-1 text-right">
+          <p>marco2two@gmail.com</p>
+          <p>+20 127 066 8980</p>
+          <p>Cairo, Egypt</p>
+          <p>github.com/marcogeorgez</p>
+          <p>linkedin.com/in/marcogeorgez</p>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <section class="mt-6">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-emerald-700 mb-2">Profile</h2>
+        <p class="text-sm leading-relaxed text-neutral-700">
+          Full-stack engineer specializing in .NET and Blazor with deep expertise in AI workflow automation. I design, build, deploy, and maintain complete production
+          platforms for international clients across project management, ERP, and marketplace domains, including multi-agent AI compliance platforms, custom hardware
+          drivers and cross-platform mobile apps.
+        </p>
+      </section>
+
+      <!-- Experience -->
+      <section class="mt-6">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-emerald-700 mb-2">Experience</h2>
+        <div class="space-y-4">
+          <div>
+            <div class="flex flex-wrap justify-between gap-2">
+              <h3 class="font-bold">Senior Software Engineer | T2 Hub</h3>
+              <span class="text-sm text-neutral-600">Apr. 2026 - Present</span>
+            </div>
+            <ul class="mt-1 text-sm text-neutral-700 list-disc list-inside space-y-1">
+              <li>Design and delivery lead for Nizamy, the multi-tenant HR and workforce-management platform: authentication, role-based access control, scheduling, attendance, and self-service HR for enterprise customers.</li>
+              <li>Own the .NET backend and Angular administration portal end to end, from data model and APIs through production releases.</li>
+              <li>Shipped an attendance ROI analytics suite (dedicated reporting warehouse, SQL aggregation at scale, dashboards, localized exports) and a gamified rewards system with tiers, streaks, and leaderboards.</li>
+              <li>Integrated regional voucher and rewards providers (Daleel, Qyubic, YouGotAGift) and AI-HR services over HMAC-secured webhooks and per-client service authentication.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="flex flex-wrap justify-between gap-2">
+              <h3 class="font-bold">Software Developer (Contractor) | Freelance</h3>
+              <span class="text-sm text-neutral-600">Sep. 2024 - Apr. 2026</span>
+            </div>
+            <ul class="mt-1 text-sm text-neutral-700 list-disc list-inside space-y-1">
+              <li>
+                Designed and delivered production web applications end-to-end for international clients spanning project management, ERP, and marketplace domains - from
+                requirements to deployment and maintenance.
+              </li>
+              <li>Self-hosted all client systems on Railway, managed infrastructure and post-launch support independently.</li>
+              <li>Built and integrated custom device drivers for thermal printers and weighing scales into client systems.</li>
+              <li>Delivered 10+ N8N AI agent pipelines for content generation and QuickBooks data entry.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="mt-6">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-emerald-700 mb-2">Key Projects</h2>
+        <div class="space-y-3">
+          <div>
+            <p class="text-sm font-bold">Atlas - AI Compliance &amp; Project Intelligence Platform (Multi-Agent AI)</p>
+            <p class="text-sm text-neutral-700">
+              Multi-agent AI platform (n8n, LangChain, OpenRouter, PostgreSQL) that monitors live construction chats and photos and flags code violations against a ~6,000-rule
+              registry extracted from 2,500+ pages of TCNA / ANSI / manufacturer standards. Designed the retrieval and compliance engine: LLM query analysis with controlled
+              vocabularies, weighted SQL scoring, page-cited PASS / FAIL verdicts, and a hard no-general-knowledge policy for liability-critical answers. Delivered the full
+              integration loop: async webhook / polling API into a Blazor app, vision-based site inspection, manager alerting via Slack / email / in-app, and installer
+              performance analytics.
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-bold">Synchron - LuminaryVisuals (Client Platform)</p>
+            <p class="text-sm text-neutral-700">
+              Unified platform where managers assign work, staff track progress, and clients review deliverables. Blazor Server, SignalR, EF Core, Cloudflare R2, PostgreSQL.
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-bold">Construction ERP - FlooringBySammer</p>
+            <p class="text-sm text-neutral-700">
+              Digitized the full job lifecycle, now driven by an expanding fleet of integrated AI agents across estimates, invoicing, data entry, and document workflows, with
+              QuickBooks webhook sync as the accounting backbone. Blazor WASM, OData, Hangfire, PostgreSQL.
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-bold">Tyaar (Marketplace)</p>
+            <p class="text-sm text-neutral-700">
+              Construction-parts marketplace with IBAN payment verification and delivery confirmation, plus .NET MAUI companion app. Blazor WASM, OData, AWS S3.
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-bold">AI Workflow Automations (N8N)</p>
+            <p class="text-sm text-neutral-700">10+ production pipelines auto-generating weekly content from job media; QuickBooks AI agents. N8N, OpenAI, Whisper.</p>
+          </div>
+          <div>
+            <p class="text-sm font-bold">PredictAi (Stock Forecasting)</p>
+            <p class="text-sm text-neutral-700">
+              LSTM neural networks forecasting NYSE trends from years of data across 1000+ companies with an automated ingestion pipeline and RESTful API. Python, Flask,
+              TensorFlow, MSSQL.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="mt-6">
+        <h2 class="text-sm font-bold uppercase tracking-widest text-emerald-700 mb-2">Skills</h2>
+        <div class="space-y-2 text-sm text-neutral-700">
+          <p><span class="font-semibold">Backend:</span> .NET Core, ASP.NET, EF Core, OData, SignalR, Hangfire, Refit, REST APIs</p>
+          <p><span class="font-semibold">Frontend:</span> Blazor, React, Angular, Tailwind CSS, JavaScript, HTML5/CSS3, Radzen, MudBlazor</p>
+          <p><span class="font-semibold">Mobile &amp; Databases:</span> .NET MAUI (Android/iOS), PostgreSQL, Microsoft SQL Server</p>
+          <p><span class="font-semibold">Cloud, AI &amp; Tools:</span> Railway, Cloudflare R2, AWS S3, N8N, OpenAI API, Whisper, LangChain, OpenRouter, Git, Docker</p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

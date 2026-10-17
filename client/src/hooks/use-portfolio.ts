@@ -1,29 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { projectsData, experiencesData, skillsData } from "@/data";
+import { projectsData, experiencesData, skillsData, testimonialsData } from "@/data";
 
 export function useProjects() {
-  return useQuery({
-    queryKey: ["projects"],
-    queryFn: async () => {
-      return projectsData;
-    },
-  });
+  return projectsData;
 }
 
 export function useExperiences() {
-  return useQuery({
-    queryKey: ["experiences"],
-    queryFn: async () => {
-      return experiencesData;
-    },
-  });
+  return experiencesData;
 }
 
 export function useSkills() {
-  return useQuery({
-    queryKey: ["skills"],
-    queryFn: async () => {
-      return skillsData;
-    },
-  });
+  return skillsData;
+}
+
+export function useTestimonials() {
+  return testimonialsData;
 }

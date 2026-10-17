@@ -4,6 +4,9 @@ import { About } from "@/components/about";
 import { SkillsSection } from "@/components/skills-section";
 import { ExperienceSection } from "@/components/experience-section";
 import { ProjectsSection } from "@/components/projects-section";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import { ContactSection } from "@/components/contact-section";
+import { TechMarquee } from "@/components/marquee";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -12,10 +15,13 @@ export default function Home() {
       <Nav />
       <main className="flex-grow">
         <Hero />
+        <TechMarquee />
         <About />
         <SkillsSection />
         <ExperienceSection />
         <ProjectsSection />
+        <TestimonialsSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>
