@@ -1,64 +1,76 @@
-import { SectionHeader } from "@/components/section-header";
-import { Brain, Database, Layout, Rocket, Server, Workflow } from "lucide-react";
-
-const passions = [
-  {
-    icon: Server,
-    title: "Full-Stack Architecture",
-    description: "Building end-to-end systems with .NET backends and modern frontends, from concept through deployment. I design scalable solutions that handle real-world complexity and deliver measurable business value.",
-  },
-  {
-    icon: Brain,
-    title: "AI Workflow Automation",
-    description: "Creating intelligent systems that automate repetitive tasks and augment human capability. Using APIs like OpenAI and Whisper, I build workflows that save teams hundreds of hours per month while improving accuracy.",
-  },
-  {
-    icon: Layout,
-    title: "React & Tailwind Expertise",
-    description: "Crafting responsive, beautiful interfaces with React and Tailwind CSS that feel great on any device. I focus on performance, accessibility, and user experience that keeps users coming back.",
-  },
-  {
-    icon: Database,
-    title: "Database Design & Optimization",
-    description: "Engineering robust data architectures using PostgreSQL and SQL Server that handle complex business logic efficiently. I ensure data integrity, optimize queries for performance, and design schemas that scale.",
-  },
-  {
-    icon: Workflow,
-    title: "Code Quality & Reliability",
-    description:
-      "Every line of code I write is production-ready, tested, and maintainable. I deliver clean architectures, follow best practices, and ensure systems remain stable under real-world conditions. Your code is an investment that should pay dividends.",
-  },
-  {
-    icon: Rocket,
-    title: "Results-Driven Development",
-    description:
-      "I focus on solving your business problems, not just writing code. Every feature, optimization, and deployment directly impacts your bottom line. I deliver measurable outcomes and take ownership of project success from day one.",
-  },
-];
+import { Reveal } from "@/components/reveal";
+import { nowData, principlesData } from "@/data";
 
 export function About() {
   return (
-    <section id="about" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          kicker="About"
-          title="What I Do"
-          description="I'm passionate about transforming complex problems into elegant, efficient solutions. As a full-stack engineer, I bridge the gap between powerful backend systems and intuitive user experiences. Whether building enterprise applications, automating workflows with AI, or crafting beautiful interfaces, I'm committed to delivering software that matters."
-        />
+    <section id="about" className="section-pad border-t border-line" aria-labelledby="about-heading">
+      <div className="wrap">
+        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.35fr] lg:gap-20">
+          <Reveal>
+            <span className="eyebrow">02 / About</span>
+            <h2 id="about-heading" className="display-2 mt-4 max-w-[11ch] text-balance">
+              The whole system, not just the screen.
+            </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {passions.map((item, i) => (
-            <div
-              key={item.title}
-              className="group bg-card/50 border border-white/10 rounded-2xl p-7 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
-              style={{ transitionDelay: `${i * 20}ms` }}
-            >
-              <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-5 group-hover:scale-110 group-hover:border-primary/50 transition-all">
-                <item.icon className="w-5 h-5" />
+            <div className="mt-10 border border-line bg-panel/60 p-5">
+              <div className="flex items-center justify-between">
+                <span className="eyebrow">Now</span>
+                <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+                  <span className="h-1 w-1 rounded-full bg-white" aria-hidden="true" />
+                  Live
+                </span>
               </div>
-              <h3 className="text-lg font-semibold mb-3 group-hover:text-primary transition-colors">{item.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              <dl className="mt-5 space-y-3.5">
+                {nowData.map((item) => (
+                  <div key={item.label} className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-3">
+                    <dt className="font-mono text-[11px] uppercase leading-[1.6] tracking-[0.12em] text-muted">{item.label}</dt>
+                    <dd className="text-[14px] leading-[1.5] text-soft">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
+          </Reveal>
+
+          <Reveal delay={120} className="lg:pt-2">
+            <p className="max-w-[34ch] font-display text-[clamp(1.5rem,2.6vw,2.15rem)] font-medium leading-[1.25] tracking-[-0.03em] text-white">
+              I design and ship the whole thing: data model, APIs, admin portal, integrations and deployment. Then I stay for the support.
+            </p>
+
+            <div className="mt-8 grid max-w-[62ch] gap-5 text-[16px] leading-[1.75] text-muted">
+              <p>
+                My day job is <span className="text-soft">Nizamy</span>, a multi-tenant HR and workforce platform at T2 Hub. I own the .NET backend and the Angular administration portal, including scheduling, attendance,
+                a reporting warehouse and the voucher integrations behind the rewards program.
+              </p>
+              <p>
+                Before that, two years freelance: six client platforms across project management, ERP and marketplaces. I self-hosted every one on Railway and handled infrastructure and post-launch support myself.
+              </p>
+              <p>
+                I build AI where it has to be correct. Atlas answers compliance questions from a <span className="text-soft">~6,000-rule registry with page citations</span>, and blocks general-knowledge answers so the model cannot
+                invent a standard. Ten-plus n8n pipelines handle the repetitive work around it.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-2">
+              <span className="tag">Correctness-critical systems</span>
+              <span className="tag">End-to-end ownership</span>
+              <span className="tag">Production, not demos</span>
+            </div>
+
+            <p className="mt-5 max-w-[46ch] font-mono text-[11px] uppercase leading-[1.8] tracking-[0.14em] text-muted">
+              Currently going deeper on Kubernetes, Stripe and Payfort integration patterns.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 grid border-t border-line md:mt-24 md:grid-cols-3">
+          {principlesData.map((principle, index) => (
+            <Reveal key={principle.title} delay={index * 90} className={`h-full ${index > 0 ? "border-t border-line md:border-l md:border-t-0" : ""}`}>
+              <div className="h-full px-0 py-7 md:px-7 md:py-8">
+                <span className="mono text-[11px] tracking-[0.14em] text-muted">0{index + 1}</span>
+                <h3 className="mt-4 text-lg font-medium tracking-[-0.02em] text-white">{principle.title}</h3>
+                <p className="mt-3 max-w-[34ch] text-[14.5px] leading-[1.7] text-muted">{principle.body}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>

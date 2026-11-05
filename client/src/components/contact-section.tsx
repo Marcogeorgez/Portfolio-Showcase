@@ -1,78 +1,127 @@
-import { useState } from "react";
-import { Check, Copy, Download, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { motion } from "framer-motion";
-import { SectionHeader } from "@/components/section-header";
-import { personalInfo } from "@/data";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Check, Copy, Download, Github, Linkedin, Phone } from "lucide-react";
+import { Reveal } from "@/components/reveal";
+import { factsData, personalInfo } from "@/data";
+
+const contactLinks = [
+  { label: "GitHub", value: "github.com/marcogeorgez", href: personalInfo.github, icon: Github, external: true },
+  { label: "LinkedIn", value: "linkedin.com/in/marcogeorgez", href: personalInfo.linkedin, icon: Linkedin, external: true },
+  { label: "CV", value: "Print-ready PDF", href: personalInfo.cvUrl, icon: Download, external: false },
+  { label: "Phone", value: personalInfo.phone, href: `tel:${personalInfo.phone.replace(/\s/g, "")}`, icon: Phone, external: false },
+];
 
 export function ContactSection() {
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const copyEmail = async () => {
+    if (!navigator.clipboard) {
+      window.location.href = `mailto:${personalInfo.email}`;
+      return;
+    }
     try {
       await navigator.clipboard.writeText(personalInfo.email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+      timerRef.current = window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Clipboard unavailable (e.g. insecure context); fall back to a normal mailto link.
       window.location.href = `mailto:${personalInfo.email}`;
     }
   };
 
   return (
-    <section id="contact" className="py-24 border-t border-white/5 relative">
-      <div className="glow-orb bg-primary/25 w-[500px] h-[500px] bottom-0 right-0" />
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeader kicker="Contact" title="Let's build something together" description="Have a project, a role, or an idea that needs a dependable engineer? My inbox is always open." align="center" />
+    <section id="contact" className="section-pad border-t border-line" aria-labelledby="contact-heading">
+      <div className="wrap">
+        <div className="grid gap-14 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
+          <Reveal>
+            <span className="eyebrow">06 / Contact</span>
+            <h2 id="contact-heading" className="display-1 mt-5 max-w-[11ch] text-balance">
+              Let&apos;s ship something.
+            </h2>
+            <p className="lede mt-6 max-w-[34rem] text-pretty">
+              I&apos;m open to senior .NET and full-stack roles, and to focused contract work. Tell me what you are building, what is breaking, or what you want automated.
+            </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative rounded-3xl glass-panel p-8 md:p-12 text-center overflow-hidden"
-        >
-          <p className="font-display text-2xl md:text-4xl font-bold mb-2">
-            Say <span className="text-gradient-primary">hello</span>.
-          </p>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">Tell me what you're working on. I usually reply within a day.</p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a href={`mailto:${personalInfo.email}`} className="btn btn-solid" data-cursor-label="Email">
+                Email me
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <button type="button" onClick={copyEmail} className="btn btn-ghost" aria-live="polite">
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+                {copied ? "Copied" : "Copy email"}
+              </button>
+              <a href={personalInfo.cvUrl} className="btn btn-ghost" data-cursor-label="CV">
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download CV
+              </a>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 h-14 text-base font-medium text-primary-foreground hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25 transition-all"
-            >
-              <Mail className="w-5 h-5" /> {personalInfo.email}
+            <a href={`mailto:${personalInfo.email}`} className="mt-10 inline-block max-w-full break-all font-display text-[clamp(1.35rem,3.6vw,2.9rem)] font-medium leading-none tracking-[-0.045em] text-white link-underline">
+              {personalInfo.email}
             </a>
-            <button
-              onClick={copyEmail}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 h-14 text-base text-foreground hover:border-primary/50 hover:bg-primary/5 hover:-translate-y-0.5 transition-all"
-              aria-live="polite"
-            >
-              {copied ? <Check className="w-5 h-5 text-primary" /> : <Copy className="w-5 h-5" />}
-              {copied ? "Copied!" : "Copy email"}
-            </button>
-            <a
-              href={personalInfo.cvUrl}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 h-14 text-base text-foreground hover:border-primary/50 hover:bg-primary/5 hover:-translate-y-0.5 transition-all"
-            >
-              <Download className="w-5 h-5" /> CV
-            </a>
-          </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <a href={`tel:${personalInfo.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-              <Phone className="w-4 h-4" /> {personalInfo.phone}
-            </a>
-            <span className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" /> {personalInfo.location}
-            </span>
-            <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
-              <Github className="w-4 h-4" /> github/marcogeorgez
-            </a>
-            <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
-              <Linkedin className="w-4 h-4" /> linkedin/marcogeorgez
-            </a>
-          </div>
-        </motion.div>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+              {personalInfo.location} · Usually replies within one business day
+            </p>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <dl className="border-t border-line">
+              {factsData.map((fact) => (
+                <div key={fact.label} className="grid grid-cols-[6rem_minmax(0,1fr)] gap-4 border-b border-line py-4">
+                  <dt className="eyebrow pt-0.5">{fact.label}</dt>
+                  <dd className="text-[14px] leading-[1.6] text-soft">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <ul className="mt-10 border-t border-line">
+              {contactLinks.map(({ label, value, href, icon: Icon, external }) => (
+                <li key={label} className="border-b border-line">
+                  <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="group flex items-center justify-between gap-4 py-4"
+                  >
+                    <span className="flex items-center gap-3">
+                      <Icon className="h-4 w-4 text-muted transition-colors group-hover:text-white" aria-hidden="true" />
+                      <span className="flex flex-col">
+                        <span className="text-[14px] text-white">{label}</span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{value}</span>
+                      </span>
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 text-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8 flex items-start gap-3 border border-line bg-panel/60 p-4">
+              <span className="relative mt-1.5 flex h-1.5 w-1.5 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+              </span>
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white">Available for new opportunities</p>
+                <p className="mt-2 text-[13px] leading-[1.6] text-muted">
+                  Full-time senior engineering or a scoped build. Based in Cairo, working remotely with teams in Europe and the US.
+                </p>
+              </div>
+            </div>
+
+            <p className="sr-only" aria-live="polite">
+              {copied ? "Email address copied to clipboard." : ""}
+            </p>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

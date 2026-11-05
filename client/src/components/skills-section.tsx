@@ -1,73 +1,52 @@
-import { useSkills } from "@/hooks/use-portfolio";
-import { SectionHeader } from "@/components/section-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Box, Brain, Cloud, Code2, Cpu, Database, GitBranch, Layers, Network, Radio, Smartphone, Wind, Workflow, Zap } from "lucide-react";
-
-const techIcons: Record<string, React.ReactNode> = {
-  ".NET Core": <Box className="w-4 h-4" />,
-  "ASP.NET": <Box className="w-4 h-4" />,
-  "EF Core": <Database className="w-4 h-4" />,
-  OData: <Zap className="w-4 h-4" />,
-  SignalR: <Radio className="w-4 h-4" />,
-  Hangfire: <Workflow className="w-4 h-4" />,
-  Refit: <Code2 className="w-4 h-4" />,
-  "REST APIs": <Network className="w-4 h-4" />,
-  Blazor: <Box className="w-4 h-4" />,
-  React: <Layers className="w-4 h-4" />,
-  "Tailwind CSS": <Wind className="w-4 h-4" />,
-  JavaScript: <Code2 className="w-4 h-4" />,
-  "HTML5/CSS3": <Code2 className="w-4 h-4" />,
-  Radzen: <Code2 className="w-4 h-4" />,
-  MudBlazor: <Code2 className="w-4 h-4" />,
-  ".NET MAUI (Android / iOS)": <Smartphone className="w-4 h-4" />,
-  PostgreSQL: <Database className="w-4 h-4" />,
-  "Microsoft SQL Server": <Database className="w-4 h-4" />,
-  Railway: <Cloud className="w-4 h-4" />,
-  "Cloudflare R2": <Cloud className="w-4 h-4" />,
-  "AWS S3": <Cloud className="w-4 h-4" />,
-  N8N: <Workflow className="w-4 h-4" />,
-  "OpenAI API": <Brain className="w-4 h-4" />,
-  Whisper: <Brain className="w-4 h-4" />,
-  Git: <GitBranch className="w-4 h-4" />,
-  Docker: <Box className="w-4 h-4" />,
-  Python: <Code2 className="w-4 h-4" />,
-  Flask: <Cpu className="w-4 h-4" />,
-  TensorFlow: <Cpu className="w-4 h-4" />,
-};
+import { ArrowDownRight } from "lucide-react";
+import { Reveal } from "@/components/reveal";
+import { stackGroups } from "@/data";
 
 export function SkillsSection() {
-  const skills = useSkills().slice().sort((a, b) => a.order - b.order);
-
   return (
-    <section id="skills" className="py-24 border-y border-white/5 relative">
-      <div className="glow-orb bg-primary/20 w-[600px] h-[600px] top-0 left-1/2 -translate-x-1/2" />
+    <section id="stack" className="section-pad border-t border-line" aria-labelledby="stack-heading">
+      <div className="wrap">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow">04 / Stack</span>
+            <h2 id="stack-heading" className="display-2 mt-4 max-w-[13ch] text-balance">
+              Depth, not a wall of logos.
+            </h2>
+          </div>
+          <p className="max-w-sm text-[15px] leading-[1.7] text-muted md:pb-2">Grouped by how I actually use it. Core is what I ship with every week; the rest is proven on client work or active working knowledge.</p>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeader kicker="Capabilities" title="Technical Arsenal" description="Technologies and tools I use to build robust solutions." align="center" />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skills.map((skillGroup) => (
-            <Card key={skillGroup.id} className="h-full bg-card/50 border-white/5 hover:border-primary/30 transition-colors shadow-xl hover:shadow-primary/5">
-              <CardHeader>
-                <CardTitle className="text-lg font-display text-primary">{skillGroup.category}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {skillGroup.items.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className="bg-white/5 hover:bg-primary/10 hover:border-primary/40 text-sm font-medium px-3 py-2 text-foreground border border-transparent transition-colors flex items-center gap-2 cursor-default"
-                    >
-                      {techIcons[skill] || <Code2 className="w-4 h-4" />}
-                      {skill}
-                    </Badge>
-                  ))}
+        <div className="mt-12 border-t border-line md:mt-16">
+          {stackGroups.map((group, index) => (
+            <Reveal key={group.id} delay={index * 70}>
+              <div className="stack-row grid gap-4 border-b border-line py-8 md:grid-cols-[0.5fr_1.5fr] md:gap-12 md:py-10">
+                <div className="flex items-baseline gap-4">
+                  <span className="mono text-[11px] tracking-[0.1em] text-muted">0{index + 1}</span>
+                  <div>
+                    <h3 className="text-[17px] font-medium tracking-[-0.02em] text-white">{group.tier}</h3>
+                    <p className="mt-1 text-[12px] leading-[1.5] text-muted">{group.note}</p>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-4">
+                  {group.items.map((item) => (
+                    <li key={item} className="group flex items-center gap-2.5 text-[14px] text-soft">
+                      <span className="h-1 w-1 shrink-0 rounded-full bg-line-strong transition-colors duration-300 group-hover:bg-white" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           ))}
+        </div>
+
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Also: Git · Radzen · MudBlazor · Refit</p>
+          <a href="#work" className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white">
+            See it in the work
+            <ArrowDownRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>

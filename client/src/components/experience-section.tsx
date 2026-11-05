@@ -1,56 +1,54 @@
-import { useExperiences } from "@/hooks/use-portfolio";
-import { SectionHeader } from "@/components/section-header";
-import { Building2, Calendar, Rocket } from "lucide-react";
+import { Reveal } from "@/components/reveal";
+import { experiencesData } from "@/data";
 
 export function ExperienceSection() {
-  const experiences = useExperiences().slice().sort((a, b) => a.order - b.order).reverse();
+  const experiences = experiencesData.slice().sort((a, b) => b.order - a.order);
 
   return (
-    <section id="experience" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader kicker="Career" title="Professional Experience" />
+    <section id="experience" className="section-pad border-t border-line" aria-labelledby="experience-heading">
+      <div className="wrap">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow">03 / Experience</span>
+            <h2 id="experience-heading" className="display-2 mt-4 max-w-[14ch] text-balance">
+              Two roles. Continuous ownership.
+            </h2>
+          </div>
+          <p className="max-w-sm text-[15px] leading-[1.7] text-muted md:pb-2">From schema and API design through production releases and the support that follows. The detail maps directly to the CV.</p>
+        </div>
 
-        <div className="relative">
-          {/* Continuous vertical timeline */}
-          <div className="absolute left-4 md:left-1/2 top-2 bottom-2 w-px bg-white/10 -translate-x-1/2" />
+        <div className="mt-12 border-t border-line md:mt-16">
+          {experiences.map((experience, index) => (
+            <Reveal key={experience.id} delay={index * 100}>
+              <article className="grid gap-8 border-b border-line py-10 md:grid-cols-[0.72fr_1.28fr] md:gap-16 md:py-14">
+                <div>
+                  <span className="mono text-[11px] uppercase tracking-[0.14em] text-muted">{experience.period}</span>
+                  <h3 className="mt-4 text-[clamp(1.35rem,2.2vw,1.8rem)] font-medium leading-tight tracking-[-0.03em] text-white">{experience.role}</h3>
+                  <p className="mt-2 text-[15px] text-soft">{experience.company}</p>
+                  {experience.location && <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{experience.location}</p>}
 
-          <div className="space-y-12">
-            {experiences.map((exp, i) => (
-              <div key={exp.id} className="relative grid md:grid-cols-2 gap-6 md:gap-24">
-                {/* Node on the line */}
-                <div className="absolute left-4 md:left-1/2 top-6 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-background -translate-x-1/2 z-10" />
-
-                <div className={`pl-10 md:pl-0 ${i % 2 === 0 ? "md:justify-self-end" : "md:order-2 md:col-start-2"} md:w-[calc(100%-3rem)]`}>
-                  <div className="bg-card/50 border border-white/10 rounded-2xl p-6 hover:border-primary/30 transition-colors shadow-lg shadow-black/20">
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                      <div className="flex items-center gap-1.5 text-sm text-primary font-medium">
-                        <Building2 className="w-4 h-4" />
-                        {exp.company}
-                      </div>
-                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                        {exp.period.includes("Present") ? <Rocket className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                        {exp.period}
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground mb-3">{exp.role}</h3>
-                    <ul className="space-y-2 text-sm text-muted-foreground/90">
-                      {exp.description.map((desc, idx) => (
-                        <li key={idx} className="flex gap-2 text-left">
-                          <span className="text-primary mt-1 shrink-0">•</span>
-                          <span className="leading-relaxed">{desc}</span>
-                        </li>
+                  {experience.stack && (
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {experience.stack.map((item) => (
+                        <span key={item} className="tag">
+                          {item}
+                        </span>
                       ))}
-                    </ul>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className={`hidden md:block ${i % 2 === 0 ? "md:order-2" : "md:order-1"}`} />
-              </div>
-            ))}
-
-            {/* Node capping the line */}
-            <div className="absolute left-4 md:left-1/2 -bottom-8 w-3.5 h-3.5 rounded-full border-2 border-primary/50 -translate-x-1/2 z-10" />
-          </div>
+                <ul>
+                  {experience.description.map((item, itemIndex) => (
+                    <li key={item} className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-3 border-t border-line py-3.5 first:border-t-0 first:pt-0 md:grid-cols-[2rem_minmax(0,1fr)]">
+                      <span className="mono pt-0.5 text-[11px] tracking-[0.1em] text-muted">{String(itemIndex + 1).padStart(2, "0")}</span>
+                      <span className="text-[14.5px] leading-[1.7] text-soft md:text-[15px]">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

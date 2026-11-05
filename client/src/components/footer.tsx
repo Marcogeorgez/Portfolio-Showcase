@@ -1,62 +1,101 @@
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUp, ArrowUpRight, Download, Github, Linkedin, Mail } from "lucide-react";
+import { LogoMark } from "@/components/logo-mark";
 import { navLinks, personalInfo } from "@/data";
+
+function CairoTime() {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const formatter = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Cairo", hour: "2-digit", minute: "2-digit", hour12: false });
+    const update = () => setTime(formatter.format(new Date()));
+    update();
+    const timer = window.setInterval(update, 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted" suppressHydrationWarning>
+      Cairo {time || "--:--"}
+    </span>
+  );
+}
 
 export function Footer() {
   return (
-    <footer className="py-12 md:py-16 border-t border-white/5 relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10">
-          <div className="text-center md:text-left">
-            <span className="font-display font-bold text-2xl tracking-tight text-foreground">
-              Marco<span className="text-primary">.</span>
-            </span>
-            <p className="text-sm text-muted-foreground mt-1">Full-Stack Engineer & AI Automation Specialist</p>
+    <footer className="border-t border-line">
+      <div className="wrap py-14 md:py-20">
+        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+          <div>
+            <a href="#top" className="group inline-flex items-center gap-4" aria-label="Marco George, back to top">
+              <LogoMark className="h-8 w-8 shrink-0 text-white" />
+              <span className="display-2 tracking-[-0.05em] text-white">Marco George</span>
+              <ArrowUp className="h-5 w-5 text-muted transition-transform duration-300 group-hover:-translate-y-1 group-hover:text-white" aria-hidden="true" />
+            </a>
+            <p className="mt-4 max-w-sm text-[15px] leading-[1.7] text-muted">Full-stack engineer working in .NET and Blazor, with AI pipelines that take repetitive work off teams.</p>
+            <p className="mt-5 font-mono text-[11px] uppercase leading-[1.7] tracking-[0.14em] text-muted">
+              {personalInfo.location}
+            </p>
           </div>
 
-          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                {link.name}
-              </a>
-            ))}
-            <a href={personalInfo.cvUrl} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Download CV
-            </a>
-          </nav>
+          <div className="grid grid-cols-2 gap-10 sm:gap-16">
+            <div>
+              <p className="eyebrow">Sitemap</p>
+              <ul className="mt-4 space-y-2.5">
+                {navLinks.map((link) => (
+                  <li key={link.name}>
+                    <a href={link.href} className="text-[14px] text-muted transition-colors hover:text-white">
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a href="#contact" className="text-[14px] text-muted transition-colors hover:text-white">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className="flex items-center gap-3">
-            {[
-              { icon: Github, href: personalInfo.github, label: "GitHub" },
-              { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
-              { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
-            ].map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                aria-label={label}
-                className="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 hover:-translate-y-0.5 transition-all"
-              >
-                <Icon className="w-5 h-5" />
-              </a>
-            ))}
-            <a
-              href="#top"
-              aria-label="Back to top"
-              className="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 hover:-translate-y-0.5 transition-all"
-            >
-              <ArrowUp className="w-5 h-5" />
-            </a>
+            <div>
+              <p className="eyebrow">Elsewhere</p>
+              <ul className="mt-4 space-y-2.5">
+                <li>
+                  <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-[14px] text-muted transition-colors hover:text-white">
+                    <Github className="h-3.5 w-3.5" aria-hidden="true" /> GitHub
+                    <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-[14px] text-muted transition-colors hover:text-white">
+                    <Linkedin className="h-3.5 w-3.5" aria-hidden="true" /> LinkedIn
+                    <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href={`mailto:${personalInfo.email}`} className="group inline-flex items-center gap-1.5 text-[14px] text-muted transition-colors hover:text-white">
+                    <Mail className="h-3.5 w-3.5" aria-hidden="true" /> Email
+                  </a>
+                </li>
+                <li>
+                  <a href={personalInfo.cvUrl} className="group inline-flex items-center gap-1.5 text-[14px] text-muted transition-colors hover:text-white">
+                    <Download className="h-3.5 w-3.5" aria-hidden="true" /> Download CV
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Marco George. All rights reserved.</span>
-          <span>
-            Built with <span className="text-foreground/80">React</span>, <span className="text-foreground/80">Tailwind CSS</span> and stubborn attention to detail.
-          </span>
+        <div className="mt-14 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-[11px] uppercase leading-[1.7] tracking-[0.12em] text-muted">© {new Date().getFullYear()} Marco George. All rights reserved.</p>
+          <div className="flex items-center gap-5">
+            <CairoTime />
+            <a href="#top" className="group inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-white">
+              Back to top
+              <ArrowUp className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

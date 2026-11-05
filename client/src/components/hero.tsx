@@ -1,139 +1,107 @@
-import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AnimatedNumber, TypedHeading } from "@/components/section-header";
-import { heroPhrases, personalInfo, statsData } from "@/data";
+import { lazy, Suspense } from "react";
+import { ArrowDownRight, ArrowUpRight, Download, Github, Linkedin } from "lucide-react";
+import { personalInfo, statsData } from "@/data";
+
+const HeroScene = lazy(() => import("@/components/hero-scene"));
+
+const socials = [
+  { label: "GitHub", href: personalInfo.github, icon: Github, external: true },
+  { label: "LinkedIn", href: personalInfo.linkedin, icon: Linkedin, external: true },
+  { label: "CV", href: personalInfo.cvUrl, icon: Download, external: false },
+];
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 pb-24 overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-dot-pattern z-0" />
-      <div className="glow-orb bg-primary w-125 h-125 -top-25 -right-25 sm:hidden md:inline" />
+    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden border-b border-line bg-black">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,#000_0%,rgba(0,0,0,0.45)_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,rgba(0,0,0,0.45)_55%,transparent_100%)]"
+        style={{ backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px)", backgroundSize: "16.666% 100%" }}
+      />
+      <Suspense
+        fallback={
+          <div
+            aria-hidden="true"
+            className="hero-scene-mask pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_60%_45%,rgba(255,255,255,0.07),transparent_55%)]"
+          />
+        }
+      >
+        <HeroScene />
+      </Suspense>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
-          {/* Left: intro */}
-          <div>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-6">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+      <div className="wrap relative z-10 flex flex-1 flex-col justify-between pb-8 pt-24 md:pb-10 md:pt-32">
+        <div className="grid flex-1 items-center gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.6fr)]">
+          <div className="max-w-[46rem]">
+            <div className="hero-rise flex flex-wrap items-center gap-x-3 gap-y-2" style={{ animationDelay: "40ms" }}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-soft">Available for new opportunities</span>
               </span>
-              <span className="text-sm font-medium text-muted-foreground">{personalInfo.availability}</span>
-            </motion.div>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+                {personalInfo.location} · Working worldwide
+              </span>
+            </div>
 
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl md:text-7xl font-bold leading-tight mb-4 text-balance">
-              Hi, I'm Marco George.
-              <br />
-              <TypedHeading phrases={heroPhrases} className="text-gradient-primary" />
-            </motion.h1>
+            <h1 className="display-1 hero-rise mt-7 text-balance max-md:text-[2.7rem]" style={{ animationDelay: "120ms" }}>
+              I build the software businesses run on.
+            </h1>
 
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-              I build <strong className="text-foreground font-semibold">production web platforms</strong> for real businesses with .NET and Blazor, and ship{" "}
-              <strong className="text-foreground font-semibold">AI workflow automations</strong> that quietly save teams hours every week.
-            </motion.p>
+            <p className="lede hero-rise mt-6 max-w-[38rem] text-pretty max-md:text-[16px]" style={{ animationDelay: "200ms" }}>
+              Full-stack engineer in <strong className="font-medium text-white">.NET and Blazor</strong>. I ship production platforms for workforce, ERP and marketplace teams, and{" "}
+              <strong className="font-medium text-white">AI agent pipelines</strong> that take repetitive work off the people running them.
+            </p>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8 h-14 text-base border border-primary/40 hover:border-primary hover:-translate-y-0.5 transition-all">
-                <a href="#projects">
-                  View My Work <ArrowDown className="ml-2 w-5 h-5" />
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-full px-8 h-14 text-base border-primary/30 hover:border-primary hover:bg-primary/5 hover:-translate-y-0.5 transition-all">
-                <a href={personalInfo.cvUrl}>
-                  <Download className="mr-2 w-5 h-5" /> Download CV
-                </a>
-              </Button>
-            </motion.div>
+            <div className="hero-rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: "280ms" }}>
+              <a href="#work" className="btn btn-solid" data-cursor-label="Work">
+                See the work
+                <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <a href="#contact" className="btn btn-ghost" data-cursor-label="Talk">
+                Get in touch
+              </a>
+            </div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6 }} className="mt-10 flex items-center gap-3">
-              {[
-                { icon: Github, href: personalInfo.github, label: "GitHub" },
-                { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
-                { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
-              ].map(({ icon: Icon, href, label }) => (
+            <div className="hero-rise mt-7 flex flex-wrap items-center gap-x-5 gap-y-2" style={{ animationDelay: "360ms" }}>
+              {socials.map(({ label, href, icon: Icon, external }) => (
                 <a
                   key={label}
                   href={href}
-                  aria-label={label}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="w-11 h-11 rounded-full glass-panel flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 hover:-translate-y-0.5 transition-all"
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                  className="group inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors hover:text-white sm:text-[12px]"
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span className="link-underline">{label}</span>
+                  {external && <ArrowUpRight className="h-3 w-3 opacity-50 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />}
                 </a>
               ))}
-              <span className="ml-2 text-sm text-muted-foreground flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" /> Let's build something
-              </span>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }} className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/5 pt-8">
-              {statsData.map((stat) => (
-                <div key={stat.label}>
-                  <div className="text-3xl md:text-4xl font-bold text-gradient-primary">
-                    <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
+            </div>
           </div>
 
-          {/* Right: terminal panel */}
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }} className="relative hidden lg:block">
-            <div className="relative rounded-2xl glass-panel overflow-hidden terminal-glow font-mono text-sm">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-                <span className="w-3 h-3 rounded-full bg-red-500/70" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <span className="w-3 h-3 rounded-full bg-green-500/70" />
-                <span className="ml-3 text-xs text-muted-foreground">marco@portfolio: ~</span>
-              </div>
-              <div className="p-6 space-y-3 leading-relaxed">
-                <p>
-                  <span className="text-primary">marco@portfolio</span>
-                  <span className="text-muted-foreground">:~$</span> <span className="text-foreground">whoami</span>
-                </p>
-                <p className="text-muted-foreground">Full-stack engineer, .NET & Blazor</p>
-                <p>
-                  <span className="text-primary">marco@portfolio</span>
-                  <span className="text-muted-foreground">:~$</span> <span className="text-foreground">cat stack.txt</span>
-                </p>
-                <p className="text-muted-foreground">
-                  [".NET", "Blazor", "React", <span className="text-primary">"AI agents"</span>, "PostgreSQL"]
-                </p>
-                <p>
-                  <span className="text-primary">marco@portfolio</span>
-                  <span className="text-muted-foreground">:~$</span> <span className="text-foreground">./deploy --production</span>
-                </p>
-                <p className="text-muted-foreground">
-                  <span className="text-green-400">✓</span> 6 platforms shipped&nbsp;&nbsp;<span className="text-green-400">✓</span> 10+ AI pipelines in prod
-                </p>
-                <p>
-                  <span className="text-primary">marco@portfolio</span>
-                  <span className="text-muted-foreground">:~$</span> <span className="inline-block w-2 h-4 align-middle bg-primary/80 animate-pulse" />
-                </p>
-              </div>
+          <div className="relative hidden min-h-[26rem] lg:block" aria-hidden="true">
+            <div className="absolute bottom-2 right-0 flex flex-col items-end gap-2">
+              <span className="mono text-[11px] uppercase tracking-[0.22em] text-muted">Fig. 01 / System topology</span>
+              <span className="h-px w-28 bg-line-strong" />
+              <span className="mono text-[11px] uppercase tracking-[0.22em] text-muted">10+ pipelines · 6 platforms</span>
             </div>
+          </div>
+        </div>
 
-            {/* Floating tech chips */}
-            {[
-              { label: "Blazor", className: "-top-5 -right-3", delay: "0s" },
-              { label: "AI Automations", className: "bottom-6 -right-6", delay: "1.2s" },
-              { label: "SignalR", className: "bottom-16 -left-8", delay: "2.1s" },
-            ].map((chip) => (
-              <motion.div
-                key={chip.label}
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: parseFloat(chip.delay) }}
-                className={`absolute ${chip.className} px-3 py-1.5 rounded-full glass-panel text-xs font-medium text-muted-foreground border border-primary/20`}
-              >
-                {chip.label}
-              </motion.div>
+        <div className="hero-rise mt-10 md:mt-14" style={{ animationDelay: "460ms" }}>
+          <dl className="grid grid-cols-3 border-t border-line">
+            {statsData.map((stat, index) => (
+              <div key={stat.label} className={`flex flex-col-reverse gap-2 py-5 md:flex-row md:items-end md:justify-between md:gap-6 md:py-7 ${index > 0 ? "border-l border-line pl-4 md:pl-7" : "pr-4 md:pr-7"}`}>
+                <dt className="max-w-[14ch] font-mono text-[11px] uppercase leading-[1.45] tracking-[0.13em] text-muted md:max-w-[15ch] md:text-[11px]">{stat.label}</dt>
+                <dd className="text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-none tracking-[-0.05em] text-white">
+                  {stat.value}
+                  {stat.suffix}
+                </dd>
+              </div>
             ))}
-          </motion.div>
+          </dl>
         </div>
       </div>
     </section>
