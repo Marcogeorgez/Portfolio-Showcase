@@ -77,7 +77,9 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: n
   ctx.closePath();
 }
 
-export function HotfixGame() {
+type GameTheme = "light" | "dark";
+
+export function HotfixGame({ theme = "dark" }: { theme?: GameTheme }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef({ start: () => {}, pause: () => {}, resume: () => {}, patch: () => {} });
   const bestRef = useRef(0);
@@ -117,6 +119,10 @@ export function HotfixGame() {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const narrow = window.matchMedia("(max-width: 640px)").matches;
+    const light = theme === "light";
+    const ink = light ? "#111315" : "#ffffff";
+    const paper = light ? "#f6f6f2" : "#000000";
+    const wash = (alpha: number) => (light ? `rgba(17, 19, 21, ${alpha})` : `rgba(255, 255, 255, ${alpha})`);
     const W = narrow ? 480 : 960;
     const H = narrow ? 360 : 520;
     const LINE_Y = H - (narrow ? 46 : 54);
@@ -187,7 +193,7 @@ export function HotfixGame() {
       const stats = BUG_STATS[kind];
       const labels = BUG_LABELS[kind];
       const label = labels[Math.floor(Math.random() * labels.length)];
-      ctx.font = `600 ${stats.font}px "Inter", system-ui, sans-serif`;
+      ctx.font = `600 ${stats.font}px "Archivo", system-ui, sans-serif`;
       const w = Math.ceil(ctx.measureText(label).width) + stats.pad;
       const h = stats.height;
       const speed = (stats.speed + Math.min(game.score, 600) * 0.18 + Math.random() * 18) * SPEED_SCALE;
@@ -356,21 +362,21 @@ export function HotfixGame() {
     };
 
     const drawRain = () => {
-      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.font = '10px "IBM Plex Mono", monospace';
       ctx.textAlign = "left";
       for (const drop of game.rain) {
-        ctx.font = `${drop.size}px "JetBrains Mono", monospace`;
-        ctx.fillStyle = "rgba(255,255,255,0.05)";
+        ctx.font = `${drop.size}px "IBM Plex Mono", monospace`;
+        ctx.fillStyle = wash(0.05);
         ctx.fillText(drop.char, drop.x, drop.y);
       }
     };
 
     const drawBackground = () => {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = paper;
       ctx.fillRect(0, 0, W, H);
       drawRain();
 
-      ctx.strokeStyle = "rgba(255,255,255,0.035)";
+      ctx.strokeStyle = wash(0.045);
       ctx.lineWidth = 1;
       for (let x = 0; x <= W; x += 48) {
         ctx.beginPath();
@@ -386,12 +392,12 @@ export function HotfixGame() {
       }
 
       const glow = ctx.createRadialGradient(W / 2, H * 0.35, 0, W / 2, H * 0.35, W * 0.55);
-      glow.addColorStop(0, "rgba(255,255,255,0.045)");
-      glow.addColorStop(1, "rgba(255,255,255,0)");
+      glow.addColorStop(0, wash(0.045));
+      glow.addColorStop(1, wash(0));
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.strokeStyle = "rgba(255,255,255,0.08)";
+      ctx.strokeStyle = wash(0.08);
       ctx.lineWidth = 1;
       const shift = (game.time * 38) % 32;
       for (let x = -32 + shift; x < W + 32; x += 32) {
@@ -403,7 +409,7 @@ export function HotfixGame() {
       }
 
       ctx.setLineDash([9, 9]);
-      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.strokeStyle = wash(0.6);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(0, LINE_Y);
@@ -411,20 +417,20 @@ export function HotfixGame() {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.font = `500 ${narrow ? 11 : 10}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      ctx.font = `500 ${narrow ? 11 : 10}px "IBM Plex Mono", monospace`;
+      ctx.fillStyle = wash(0.7);
       ctx.textAlign = "left";
       ctx.fillText("PRODUCTION", 18, LINE_Y + 26);
       if (!narrow) {
-        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.fillStyle = wash(0.4);
         ctx.textAlign = "right";
         ctx.fillText("3 ESCAPES = FAILED DEPLOY", W - 18, LINE_Y + 26);
         ctx.textAlign = "left";
       }
 
       if (freezeState) {
-        ctx.fillStyle = "rgba(255,255,255,0.55)";
-        ctx.font = `600 ${narrow ? 10 : 11}px "JetBrains Mono", monospace`;
+        ctx.fillStyle = wash(0.55);
+        ctx.font = `600 ${narrow ? 10 : 11}px "IBM Plex Mono", monospace`;
         ctx.textAlign = "center";
         ctx.fillText("FROZEN", W / 2, 24);
         ctx.textAlign = "left";
@@ -441,26 +447,26 @@ export function HotfixGame() {
       const top = bug.y;
 
       if (inverted) {
-        ctx.fillStyle = "#000000";
-        ctx.strokeStyle = "#ffffff";
+        ctx.fillStyle = paper;
+        ctx.strokeStyle = ink;
         ctx.lineWidth = bug.kind === "boss" ? 2 : 1.5;
       } else {
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#000000";
+        ctx.fillStyle = ink;
+        ctx.strokeStyle = paper;
         ctx.lineWidth = 1;
       }
       roundRect(ctx, left, top, bug.w, bug.h, bug.h / 2);
       ctx.fill();
       if (inverted || flash) ctx.stroke();
       if (flash) {
-        ctx.strokeStyle = "#ffffff";
+        ctx.strokeStyle = ink;
         ctx.lineWidth = 2;
         roundRect(ctx, left, top, bug.w, bug.h, bug.h / 2);
         ctx.stroke();
       }
 
-      ctx.fillStyle = inverted ? "#ffffff" : "#000000";
-      ctx.font = `600 ${stats.font}px "Inter", system-ui, sans-serif`;
+      ctx.fillStyle = inverted ? ink : paper;
+      ctx.font = `600 ${stats.font}px "Archivo", system-ui, sans-serif`;
       ctx.textBaseline = "middle";
       const textY = top + bug.h / 2 + 0.5;
       ctx.fillText(bug.label, left + (narrow ? 12 : 15), textY);
@@ -468,31 +474,31 @@ export function HotfixGame() {
       const tagX = left + bug.w - 10;
       if (bug.kind === "armored") {
         for (let i = 0; i < bug.maxHp; i += 1) {
-          ctx.fillStyle = i < bug.hp ? (inverted ? "#ffffff" : "#000000") : "rgba(128,128,128,0.4)";
+          ctx.fillStyle = i < bug.hp ? (inverted ? ink : paper) : "rgba(128, 128, 128, 0.4)";
           ctx.fillRect(tagX - 6 - i * 8, top + bug.h / 2 - 3, 4, 6);
         }
       } else if (bug.kind === "splitter") {
-        ctx.fillStyle = inverted ? "#ffffff" : "#000000";
-        ctx.font = '600 10px "JetBrains Mono", monospace';
+        ctx.fillStyle = inverted ? ink : paper;
+        ctx.font = '600 10px "IBM Plex Mono", monospace';
         ctx.textAlign = "right";
         ctx.fillText("x2", tagX, textY);
         ctx.textAlign = "left";
       } else if (bug.kind === "critical") {
-        ctx.strokeStyle = "#ffffff";
+        ctx.strokeStyle = ink;
         ctx.lineWidth = 1;
         ctx.strokeRect(tagX - 18, top + bug.h / 2 - 7, 16, 14);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = '600 9px "JetBrains Mono", monospace';
+        ctx.fillStyle = ink;
+        ctx.font = '600 9px "IBM Plex Mono", monospace';
         ctx.textAlign = "center";
         ctx.fillText("P0", tagX - 10, textY);
         ctx.textAlign = "left";
       } else if (bug.kind === "boss") {
         const barWidth = bug.w - 20;
         const barY = top + bug.h + 7;
-        ctx.strokeStyle = "rgba(255,255,255,0.5)";
+        ctx.strokeStyle = wash(0.5);
         ctx.lineWidth = 1;
         ctx.strokeRect(left + 10, barY, barWidth, 5);
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = ink;
         ctx.fillRect(left + 10, barY, barWidth * (bug.hp / bug.maxHp), 5);
       }
 
@@ -502,8 +508,8 @@ export function HotfixGame() {
     const drawPowerUp = (powerUp: PowerUp) => {
       const left = powerUp.x;
       const top = powerUp.y;
-      ctx.fillStyle = "#000000";
-      ctx.strokeStyle = "#ffffff";
+      ctx.fillStyle = paper;
+      ctx.strokeStyle = ink;
       ctx.lineWidth = 1;
       ctx.setLineDash([4, 4]);
       roundRect(ctx, left, top, powerUp.size, powerUp.size, 8);
@@ -513,7 +519,7 @@ export function HotfixGame() {
 
       const cx = left + powerUp.size / 2;
       const cy = top + powerUp.size / 2 - 2;
-      ctx.strokeStyle = "#ffffff";
+      ctx.strokeStyle = ink;
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       if (powerUp.kind === "freeze") {
@@ -533,8 +539,8 @@ export function HotfixGame() {
       }
       ctx.stroke();
 
-      ctx.fillStyle = "#ffffff";
-      ctx.font = '600 10px "JetBrains Mono", monospace';
+      ctx.fillStyle = ink;
+      ctx.font = '600 10px "IBM Plex Mono", monospace';
       ctx.textAlign = "center";
       ctx.fillText(powerUp.kind === "freeze" ? "FREEZE" : "SHIELD", cx, top + powerUp.size - 6);
       ctx.textAlign = "left";
@@ -570,14 +576,14 @@ export function HotfixGame() {
 
       for (const particle of game.particles) {
         ctx.globalAlpha = Math.max(particle.life / particle.maxLife, 0);
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = ink;
         ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
       }
       ctx.globalAlpha = 1;
 
       if (game.reticle.visible) {
         const { x, y } = game.reticle;
-        ctx.strokeStyle = "#ffffff";
+        ctx.strokeStyle = ink;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(x - 28, y);
@@ -589,12 +595,12 @@ export function HotfixGame() {
         ctx.moveTo(x, y + 9);
         ctx.lineTo(x, y + 28);
         ctx.stroke();
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = ink;
         ctx.fillRect(x - 2, y - 2, 4, 4);
       }
 
       if (game.flash > 0) {
-        ctx.fillStyle = `rgba(255,255,255,${game.flash * 0.55})`;
+        ctx.fillStyle = wash(game.flash * 0.55);
         ctx.fillRect(0, 0, W, H);
       }
 
@@ -857,7 +863,7 @@ export function HotfixGame() {
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [theme]);
 
   const overlayCopy =
     status === "over"
@@ -922,10 +928,10 @@ export function HotfixGame() {
           />
 
           {status !== "running" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-6 text-center backdrop-blur-[2px]">
+            <div className="game-overlay absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-6 text-center backdrop-blur-[2px]">
               <span className="eyebrow">{overlayCopy.eyebrow}</span>
               <h3 className="display-3 mt-3">{overlayCopy.title}</h3>
-              <p className="mt-3 max-w-[30rem] text-[14px] leading-[1.7] text-muted">{overlayCopy.body}</p>
+              <p className="game-overlay-body mt-3 max-w-[30rem] text-[14px] leading-[1.7] text-muted">{overlayCopy.body}</p>
               <button
                 type="button"
                 onClick={() => {

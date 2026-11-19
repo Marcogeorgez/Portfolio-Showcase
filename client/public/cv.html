@@ -4,164 +4,518 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marco George | CV</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Marco George, full-stack engineer: .NET, Blazor, Angular and AI workflow automation. Print-ready CV." />
+    <meta name="color-scheme" content="light" />
     <style>
+      @font-face {
+        font-family: "Archivo";
+        src: url("./fonts/Archivo.woff2") format("woff2");
+        font-weight: 300 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "IBM Plex Mono";
+        src: url("./fonts/IBM-Plex-Mono-400.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "IBM Plex Mono";
+        src: url("./fonts/IBM-Plex-Mono-500.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      :root {
+        --ink: #16181a;
+        --ink-2: #3d4142;
+        --muted: #646964;
+        --rule: #d4d5cd;
+        --paper: #ffffff;
+        --accent: #b8341f;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        background: #e9e8e2;
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #e9e8e2;
+        font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+      }
+      a:hover {
+        border-bottom-color: currentColor;
+      }
+
+      .toolbar {
+        max-width: 840px;
+        margin: 0 auto;
+        padding: 16px 20px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+      }
+      .toolbar a {
+        border-bottom: 0;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+      }
+      .toolbar a:hover {
+        color: var(--ink);
+      }
+      .toolbar button {
+        min-height: 44px;
+        padding: 0 18px;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .toolbar button:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .sheet {
+        max-width: 840px;
+        margin: 16px auto 40px;
+        padding: 56px 60px 52px;
+        background: var(--paper);
+        border: 1px solid var(--rule);
+      }
+
+      .cv-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        padding-bottom: 22px;
+        border-bottom: 2px solid var(--ink);
+      }
+      h1 {
+        margin: 0;
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 0.95;
+        letter-spacing: -0.035em;
+      }
+      .role {
+        margin: 10px 0 0;
+        font-size: 15px;
+        color: var(--ink-2);
+      }
+      .contact {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11.5px;
+        line-height: 1.75;
+        text-align: right;
+        color: var(--muted);
+      }
+      .contact li {
+        white-space: nowrap;
+        padding-left: 0;
+        margin-top: 0;
+      }
+
+      .contact li::before {
+        content: none;
+      }
+
+      section {
+        margin-top: 26px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--rule);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .profile {
+        margin: 0;
+        color: var(--ink-2);
+        max-width: 72ch;
+      }
+
+      .entry {
+        margin-top: 16px;
+      }
+      .entry:first-of-type {
+        margin-top: 0;
+      }
+      .entry-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px 18px;
+        align-items: baseline;
+      }
+      .entry h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+      }
+      .entry .when {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .entry .place {
+        grid-column: 1;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 5px;
+      }
+      ul {
+        margin: 6px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding-left: 15px;
+        margin-top: 4px;
+        color: var(--ink-2);
+      }
+      li::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 0.58em;
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+      }
+      .entry .stack {
+        margin-top: 7px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        color: var(--muted);
+      }
+
+      .project {
+        margin-top: 12px;
+      }
+      .project:first-of-type {
+        margin-top: 0;
+      }
+      .project h3 {
+        margin: 0;
+        font-size: 15.5px;
+        font-weight: 600;
+      }
+      .project h3 span {
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .project p {
+        margin: 3px 0 0;
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+      .project .stack {
+        margin-top: 4px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        color: var(--muted);
+      }
+
+      .skills {
+        display: grid;
+        gap: 7px;
+      }
+      .skill-row {
+        display: grid;
+        grid-template-columns: 11.5rem minmax(0, 1fr);
+        gap: 14px;
+        padding-top: 7px;
+        border-top: 1px solid var(--rule);
+      }
+      .skill-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .skill-row dt {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        padding-top: 2px;
+      }
+      .skill-row dd {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+
+      .colophon {
+        margin-top: 30px;
+        padding-top: 10px;
+        border-top: 1px solid var(--ink);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 6px 18px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        color: var(--muted);
+      }
+
+      @media (max-width: 680px) {
+        .sheet {
+          margin: 8px;
+          padding: 28px 22px 32px;
+        }
+        .cv-head {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .contact {
+          text-align: left;
+        }
+        h1 {
+          font-size: 34px;
+        }
+        .entry-head {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .entry .when {
+          grid-row: 2;
+        }
+        .skill-row {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 2px;
+        }
+      }
+
       @page {
         size: A4;
         margin: 14mm;
       }
       @media print {
-        .no-print,
-        .no-print *,
-        #save-as-pdf {
-          display: none !important;
-        }
         html,
         body {
-          background: white !important;
+          background: #fff;
         }
-        .page {
-          box-shadow: none !important;
-          margin: 0 !important;
+        .toolbar {
+          display: none !important;
+        }
+        .sheet {
+          max-width: none;
+          margin: 0;
+          padding: 0;
+          border: 0;
+        }
+        body {
+          font-size: 9.6pt;
+          line-height: 1.4;
+        }
+        h1 {
+          font-size: 26pt;
+        }
+        h2 {
+          break-after: avoid;
+        }
+        .entry,
+        .project {
+          break-inside: avoid;
+        }
+        a {
+          border-bottom: 0;
         }
       }
     </style>
   </head>
-  <body class="bg-neutral-100 print:bg-white">
-    <div class="no-print fixed top-4 right-4 z-10">
-      <button
-        id="save-as-pdf"
-        onclick="window.print()"
-        title="Open the print dialog and choose 'Save as PDF'"
-        class="group inline-flex cursor-pointer items-center gap-2.5 rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/20 ring-1 ring-neutral-700 transition-all duration-150 hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-xl active:translate-y-0 active:shadow-md"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-90 transition-transform duration-150 group-hover:scale-110" aria-hidden="true">
-          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-          <rect x="6" y="14" width="12" height="8" rx="1" />
-          <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
-        </svg>
-        Save as PDF
-      </button>
+  <body>
+    <div class="toolbar no-print">
+      <a href="./">← Back to the portfolio</a>
+      <button type="button" onclick="window.print()" title="Print, or choose Save as PDF">Save as PDF</button>
     </div>
 
-    <div class="page bg-white text-neutral-900 max-w-[820px] mx-auto my-6 shadow-xl min-h-[1000px] p-10 md:p-14 font-sans">
-      <!-- Header -->
-      <div class="flex flex-wrap items-start justify-between gap-4 border-b-2 border-neutral-900 pb-6">
+    <main class="sheet">
+      <header class="cv-head">
         <div>
-          <h1 class="text-4xl font-extrabold tracking-tight">Marco George</h1>
-          <p class="mt-1 text-base text-neutral-600">Full-Stack Engineer (.NET &amp; Blazor) | AI Workflow Automation</p>
+          <h1>Marco George</h1>
+          <p class="role">Full-stack engineer: .NET, Angular, Blazor and AI workflow automation</p>
         </div>
-        <div class="text-sm text-neutral-600 space-y-1 text-right">
-          <p>marco2two@gmail.com</p>
-          <p>+20 127 066 8980</p>
-          <p>Cairo, Egypt</p>
-          <p>github.com/marcogeorgez</p>
-          <p>linkedin.com/in/marcogeorgez</p>
-        </div>
-      </div>
+        <ul class="contact">
+          <li>marco2two@gmail.com</li>
+          <li>+20 127 066 8980</li>
+          <li>Cairo, Egypt, GMT+2</li>
+          <li><a href="https://github.com/marcogeorgez">github.com/marcogeorgez</a></li>
+          <li><a href="https://www.linkedin.com/in/marcogeorgez">linkedin.com/in/marcogeorgez</a></li>
+        </ul>
+      </header>
 
-      <!-- Profile -->
-      <section class="mt-6">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-2">Profile</h2>
-        <p class="text-sm leading-relaxed text-neutral-700">
-          Full-stack engineer specializing in .NET and Blazor with deep expertise in AI workflow automation. I design, build, deploy, and maintain complete production
-          platforms for international clients across project management, ERP, and marketplace domains, including multi-agent AI compliance platforms, custom hardware
-          drivers and cross-platform mobile apps.
+      <section>
+        <h2>Profile</h2>
+        <p class="profile">
+          Full-stack engineer working in .NET, Angular and Blazor, with a strong background in AI workflow automation and cloud platforms. I design, build and run
+          production systems: multi-tenant HR, rewards and redemption, ERP, marketplaces, edge services and multi-agent AI. I own the data model, the API, the interface
+          and the support after launch.
         </p>
       </section>
 
-      <!-- Experience -->
-      <section class="mt-6">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-2">Experience</h2>
-        <div class="space-y-4">
-          <div>
-            <div class="flex flex-wrap justify-between gap-2">
-              <h3 class="font-bold">Senior Software Engineer | T2 Hub</h3>
-              <span class="text-sm text-neutral-600">Apr. 2026 - Present</span>
-            </div>
-            <ul class="mt-1 text-sm text-neutral-700 list-disc list-inside space-y-1">
-              <li>Design and delivery lead for Nizamy, the multi-tenant HR and workforce-management platform: authentication, role-based access control, scheduling, attendance, and self-service HR for enterprise customers.</li>
-              <li>Own the .NET backend and Angular administration portal end to end, from data model and APIs through production releases.</li>
-              <li>Shipped an attendance ROI analytics suite (dedicated reporting warehouse, SQL aggregation at scale, dashboards, localized exports) and a gamified rewards system with tiers, streaks, and leaderboards.</li>
-              <li>Integrated regional voucher and rewards providers (Daleel, Qyubic, YouGotAGift) and AI-HR services over HMAC-secured webhooks and per-client service authentication.</li>
-            </ul>
+      <section>
+        <h2>Experience</h2>
+
+        <article class="entry">
+          <div class="entry-head">
+            <h3>Senior Software Engineer, T2 Hub</h3>
+            <span class="when">Apr 2026 to Present</span>
+            <span class="place">Cairo, Egypt</span>
           </div>
-          <div>
-            <div class="flex flex-wrap justify-between gap-2">
-              <h3 class="font-bold">Software Developer (Contractor) | Freelance</h3>
-              <span class="text-sm text-neutral-600">Sep. 2024 - Apr. 2026</span>
-            </div>
-            <ul class="mt-1 text-sm text-neutral-700 list-disc list-inside space-y-1">
-              <li>
-                Designed and delivered production web applications end-to-end for international clients spanning project management, ERP, and marketplace domains - from
-                requirements to deployment and maintenance.
-              </li>
-              <li>Self-hosted all client systems on Railway, managed infrastructure and post-launch support independently.</li>
-              <li>Built and integrated custom device drivers for thermal printers and weighing scales into client systems.</li>
-              <li>Delivered 10+ N8N AI agent pipelines for content generation and QuickBooks data entry.</li>
-            </ul>
+          <ul>
+            <li>
+              Design and delivery lead for Nizamy, the multi-tenant HR and workforce platform: authentication and RBAC, scheduling, geofenced and face attendance, self-service HR
+              and rewards for enterprise customers.
+            </li>
+            <li>Own a .NET 10 backend and Angular 19 portal across 275 endpoints and 70 EF Core migrations.</li>
+            <li>
+              Built the attendance write path: group-commit insert batching, 24-hour and overnight session rules, missing-checkout recovery, geofenced access gates and face
+              matching with liveness checks.
+            </li>
+            <li>
+              Built PointSystem, a separate rewards service used by Nizamy and Availo: points ledger, streaks, levels, leaderboards, VIP tiers and real-value card redemption.
+            </li>
+            <li>Load-tested Nizamy at 60,000 requests per minute on a single pod, then fixed the hot paths that test exposed.</li>
+            <li>Built the attendance ROI dashboard on daily and monthly snapshots, with a public savings receipt protected by a CSP nonce.</li>
+            <li>Moved milestone and attendance events out of the request path with signed, idempotent webhooks and pod-safe workers.</li>
+          </ul>
+          <p class="stack">.NET 10 · Angular 19 · SQL Server · Redis · Kubernetes · Payfort</p>
+        </article>
+
+        <article class="entry">
+          <div class="entry-head">
+            <h3>Software Developer (Contractor), Freelance</h3>
+            <span class="when">Oct 2024 to Apr 2026</span>
+            <span class="place">Remote, international clients</span>
           </div>
-        </div>
+          <ul>
+            <li>
+              Delivered production web applications end to end for international clients in project management, ERP, marketplaces and contractor marketing.
+            </li>
+            <li>Self-hosted client systems on Railway and supported them after launch.</li>
+            <li>Built KIT, a Cloudflare Pages + D1 landing-page service for US contractors, with AI research, browser QA and Stripe checkout.</li>
+            <li>Built and integrated custom device drivers for thermal printers and weighing scales into client systems.</li>
+            <li>Delivered 10+ n8n AI agent pipelines for content generation and QuickBooks data entry.</li>
+          </ul>
+          <p class="stack">.NET · Blazor · React · Cloudflare Pages · D1 · Astro · Stripe · n8n</p>
+        </article>
       </section>
 
-      <!-- Projects -->
-      <section class="mt-6">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-2">Key Projects</h2>
-        <div class="space-y-3">
-          <div>
-            <p class="text-sm font-bold">Atlas - AI Compliance &amp; Project Intelligence Platform (Multi-Agent AI)</p>
-            <p class="text-sm text-neutral-700">
-              Multi-agent AI platform (n8n, LangChain, OpenRouter, PostgreSQL) that monitors live construction chats and photos and flags code violations against a ~6,000-rule
-              registry extracted from 2,500+ pages of TCNA / ANSI / manufacturer standards. Designed the retrieval and compliance engine: LLM query analysis with controlled
-              vocabularies, weighted SQL scoring, page-cited PASS / FAIL verdicts, and a hard no-general-knowledge policy for liability-critical answers. Delivered the full
-              integration loop: async webhook / polling API into a Blazor app, vision-based site inspection, manager alerting via Slack / email / in-app, and installer
-              performance analytics.
-            </p>
-          </div>
-          <div>
-            <p class="text-sm font-bold">Synchron - LuminaryVisuals (Client Platform)</p>
-            <p class="text-sm text-neutral-700">
-              Unified platform where managers assign work, staff track progress, and clients review deliverables. Blazor Server, SignalR, EF Core, Cloudflare R2, PostgreSQL.
-            </p>
-          </div>
-          <div>
-            <p class="text-sm font-bold">Construction ERP - FlooringBySammer</p>
-            <p class="text-sm text-neutral-700">
-              Digitized the full job lifecycle, now driven by an expanding fleet of integrated AI agents across estimates, invoicing, data entry, and document workflows, with
-              QuickBooks webhook sync as the accounting backbone. Blazor WASM, OData, Hangfire, PostgreSQL.
-            </p>
-          </div>
-          <div>
-            <p class="text-sm font-bold">Tyaar (Marketplace)</p>
-            <p class="text-sm text-neutral-700">
-              Construction-parts marketplace with IBAN payment verification and delivery confirmation, plus .NET MAUI companion app. Blazor WASM, OData, AWS S3.
-            </p>
-          </div>
-          <div>
-            <p class="text-sm font-bold">AI Workflow Automations (N8N)</p>
-            <p class="text-sm text-neutral-700">10+ production pipelines auto-generating weekly content from job media; QuickBooks AI agents. N8N, OpenAI, Whisper.</p>
-          </div>
-          <div>
-            <p class="text-sm font-bold">PredictAi (Stock Forecasting)</p>
-            <p class="text-sm text-neutral-700">
-              LSTM neural networks forecasting NYSE trends from years of data across 1000+ companies with an automated ingestion pipeline and RESTful API. Python, Flask,
-              TensorFlow, MSSQL.
-            </p>
-          </div>
+      <section>
+        <h2>Selected projects</h2>
+
+        <div class="project">
+          <h3>Nizamy <span>multi-tenant HR and workforce platform</span></h3>
+          <p>
+            HR platform for GCC employers: RBAC, scheduling, geofenced and face attendance, self-service, rewards and ROI analytics. Own the .NET 10 backend and Angular 19
+            portal; load-tested at 60,000 requests per minute on a single pod.
+          </p>
+          <p class="stack">.NET 10 · Angular 19 · SQL Server · Redis · Kubernetes · Payfort</p>
         </div>
+
+        <div class="project">
+          <h3>Atlas <span>AI compliance and project intelligence</span></h3>
+          <p>
+            Multi-agent platform that monitors live construction chats and photos and flags code violations against a ~6,000-rule registry extracted from 2,500+ pages of TCNA,
+            ANSI and manufacturer standards. Designed the retrieval and compliance engine: LLM query analysis with controlled vocabularies, weighted SQL scoring, page-cited
+            PASS / FAIL verdicts and a hard no-general-knowledge policy for liability-critical answers.
+          </p>
+          <p class="stack">n8n · LangChain · OpenRouter · PostgreSQL · vision models · Blazor / .NET</p>
+        </div>
+
+        <div class="project">
+          <h3>KIT <span>AI landing-page service for US contractors</span></h3>
+          <p>
+            Client platform on Cloudflare Pages Functions and D1. A contractor submits a website, service and market; KIT verifies the business, runs cited AI research, generates
+            a standalone landing page, tests it in Chromium with axe WCAG checks and delivers the HTML. Stripe one-time page packs, idempotent webhooks and a credit ledger that
+            makes double-spend impossible.
+          </p>
+          <p class="stack">Astro · Cloudflare Pages Functions · D1 · Stripe · Manus API · Playwright · axe-core</p>
+        </div>
+
+        <div class="project">
+          <h3>PointSystem <span>employee rewards and redemption</span></h3>
+          <p>
+            Rewards service integrated with Nizamy and Availo. Employees earn points from attendance, streaks, evaluations and AI task completion, then redeem them for real
+            gift cards and vouchers against a prepaid tenant budget. Expiry-aware FIFO ledger, serializable credit-checked awards, streak freezes, levels, leaderboards, VIP tiers
+            and YouGotAGift / Daleel / Qyubic / LikeCard adapters.
+          </p>
+          <p class="stack">.NET 6 · ASP.NET Core · SQL Server · EF Core · Angular 19 · Docker · Kubernetes</p>
+        </div>
+
+        <div class="project">
+          <h3>Construction ERP <span>quote to invoice</span></h3>
+          <p>
+            Digitized the job lifecycle from quote to invoice. AI agents draft estimates and invoices, handle data entry, and completed jobs upload to Google Drive. QuickBooks syncs through webhooks.
+          </p>
+          <p class="stack">Blazor WASM · .NET · OData · Hangfire · QuickBooks API · PostgreSQL</p>
+        </div>
+
       </section>
 
-      <!-- Skills -->
-      <section class="mt-6">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-2">Skills</h2>
-        <div class="space-y-2 text-sm text-neutral-700">
-          <p><span class="font-semibold">Backend:</span> .NET Core, ASP.NET, EF Core, OData, SignalR, Hangfire, Refit, REST APIs</p>
-          <p><span class="font-semibold">Frontend:</span> Blazor, React, Angular, Tailwind CSS, JavaScript, HTML5/CSS3, Radzen, MudBlazor</p>
-          <p><span class="font-semibold">Mobile &amp; Databases:</span> .NET MAUI (Android/iOS), PostgreSQL, Microsoft SQL Server</p>
-          <p><span class="font-semibold">Cloud, AI &amp; Tools:</span> Cloudflare R2, AWS S3, N8N, OpenAI API, Whisper, LangChain, OpenRouter, Git</p>
-          <p><span class="font-semibold">Platform &amp; payments:</span> Kubernetes, Docker, Terraform, GitHub Actions, Stripe, Payfort, HMAC webhooks, Railway (working knowledge)</p>
-        </div>
+      <section>
+        <h2>Skills</h2>
+        <dl class="skills">
+          <div class="skill-row">
+            <dt>Backend</dt>
+            <dd>.NET 10, ASP.NET Core, EF Core, OData, SignalR, Refit, REST APIs, microservices, SQL Server, PostgreSQL, Redis</dd>
+          </div>
+          <div class="skill-row">
+            <dt>Frontend</dt>
+            <dd>Angular 19, Blazor, React, TypeScript, Tailwind CSS, JavaScript, HTML5/CSS3, Radzen, MudBlazor</dd>
+          </div>
+          <div class="skill-row">
+            <dt>Mobile &amp; databases</dt>
+            <dd>.NET MAUI (Android/iOS), PostgreSQL, Microsoft SQL Server</dd>
+          </div>
+          <div class="skill-row">
+            <dt>Cloud, AI &amp; tools</dt>
+            <dd>Cloudflare Pages, D1, R2, Astro, Stripe, Playwright, AWS S3, n8n, OpenAI API, Whisper, LangChain, OpenRouter, Git</dd>
+          </div>
+          <div class="skill-row">
+            <dt>Platform &amp; payments</dt>
+            <dd>Kubernetes, Docker, Terraform, GitHub Actions, Stripe, Payfort, HMAC webhooks, Railway, Jenkins, Elastic APM (working knowledge)</dd>
+          </div>
+        </dl>
       </section>
-    </div>
+
+      <p class="colophon">
+        <span>Portfolio: marcogeorgez.github.io/Portfolio-Showcase</span>
+        <span>References available on request. Updated November 2026</span>
+      </p>
+    </main>
   </body>
 </html>

@@ -7,8 +7,20 @@ export default defineConfig({
   base: "/Portfolio-Showcase/",
   root: "client",
   plugins: [react(), tailwindcss()],
+  server: {
+    port: 5174,
+    strictPort: true,
+  },
+  preview: {
+    port: 4174,
+    strictPort: true,
+  },
   build: {
-    // three.js is lazy-loaded for the hero scene, so its own chunk is expected to be large.
+    // Vite minifies production JS and CSS with esbuild. Set it explicitly so a
+    // future config change cannot quietly ship readable source to GitHub Pages.
+    minify: "esbuild",
+    cssMinify: "esbuild",
+    sourcemap: false,
     chunkSizeWarningLimit: 600,
   },
   resolve: {

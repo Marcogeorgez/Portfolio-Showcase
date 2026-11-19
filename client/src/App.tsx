@@ -1,34 +1,33 @@
 import { useEffect, useRef, useState } from "react";
-import { Switch, Route } from "wouter";
+import OpsSite from "@/variants/ops";
 import { CommandPalette } from "@/components/command-palette";
-import { Cursor } from "@/components/cursor";
-import Home from "@/pages/home";
 
 function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ticking = false;
+    let frame = 0;
     const update = () => {
+      frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(window.scrollY / max, 1) : 0);
-      ticking = false;
+      const progress = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      if (ref.current) ref.current.style.transform = `scaleX(${progress})`;
     };
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
+      if (frame) return;
+      frame = requestAnimationFrame(update);
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
   }, []);
 
-  return <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />;
+  return <div ref={ref} className="read-progress" style={{ transform: "scaleX(0)" }} aria-hidden="true" />;
 }
 
 function Toast() {
@@ -41,7 +40,7 @@ function Toast() {
       if (!detail) return;
       setMessage(detail);
       if (timerRef.current) window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(() => setMessage(""), 2200);
+      timerRef.current = window.setTimeout(() => setMessage(""), 2000);
     };
     window.addEventListener("show-toast", onToast);
     return () => {
@@ -51,31 +50,30 @@ function Toast() {
   }, []);
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className={`pointer-events-none fixed bottom-6 left-1/2 z-[110] -translate-x-1/2 rounded-full bg-white px-4 py-2 text-[13px] font-medium text-black shadow-[0_12px_40px_rgba(0,0,0,0.6)] transition-all duration-300 ${
-        message ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-      }`}
-    >
+    <div className="toast" role="status" aria-live="polite" data-visible={Boolean(message)}>
       {message || "\u00a0"}
     </div>
   );
 }
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/Portfolio-Showcase" component={Home} />
-      {/* Fallback: catch-all points at the single-page portfolio */}
-      <Route component={Home} />
-    </Switch>
-  );
-}
-
 function App() {
   useEffect(() => {
-    document.documentElement.classList.add("dark");
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    let attempts = 0;
+    let frame = 0;
+    const scroll = () => {
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "instant", block: "start" });
+        return;
+      }
+      if (attempts++ < 40) frame = requestAnimationFrame(scroll);
+    };
+    frame = requestAnimationFrame(scroll);
+    // Web fonts change the height above the target; settle the deep link once they land.
+    document.fonts?.ready.then(() => scroll());
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   return (
@@ -84,10 +82,8 @@ function App() {
         Skip to content
       </a>
       <ScrollProgress />
-      <div className="grain-overlay" aria-hidden="true" />
-      <Cursor />
       <CommandPalette />
-      <Router />
+      <OpsSite />
       <Toast />
     </>
   );

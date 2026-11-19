@@ -50,7 +50,9 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: n
   ctx.closePath();
 }
 
-export function ThroughputGame() {
+type GameTheme = "light" | "dark";
+
+export function ThroughputGame({ theme = "dark" }: { theme?: GameTheme }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef({ start: () => {}, pause: () => {}, resume: () => {}, scale: () => {} });
   const bestRef = useRef(0);
@@ -89,6 +91,10 @@ export function ThroughputGame() {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const narrow = window.matchMedia("(max-width: 640px)").matches;
+    const light = theme === "light";
+    const ink = light ? "#111315" : "#ffffff";
+    const paper = light ? "#f6f6f2" : "#000000";
+    const wash = (alpha: number) => (light ? `rgba(17, 19, 21, ${alpha})` : `rgba(255, 255, 255, ${alpha})`);
     const W = narrow ? 480 : 960;
     const H = narrow ? 360 : 520;
     const ROUTER_Y = H - (narrow ? 136 : 184);
@@ -169,7 +175,7 @@ export function ThroughputGame() {
 
     const spawnRequest = (offset = 0) => {
       const label = LABELS[Math.floor(Math.random() * LABELS.length)];
-      ctx.font = `600 ${REQUEST_FONT}px "Inter", system-ui, sans-serif`;
+      ctx.font = `600 ${REQUEST_FONT}px "Archivo", system-ui, sans-serif`;
       const w = Math.ceil(ctx.measureText(label).width) + (narrow ? 22 : 26);
       game.requests.push({
         id: game.nextId,
@@ -221,10 +227,10 @@ export function ThroughputGame() {
     };
 
     const drawBackground = () => {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = paper;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.strokeStyle = "rgba(255,255,255,0.035)";
+      ctx.strokeStyle = wash(0.045);
       ctx.lineWidth = 1;
       for (let x = 0; x <= W; x += 48) {
         ctx.beginPath();
@@ -240,13 +246,13 @@ export function ThroughputGame() {
       }
 
       const glow = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, W * 0.6);
-      glow.addColorStop(0, "rgba(255,255,255,0.055)");
-      glow.addColorStop(1, "rgba(255,255,255,0)");
+      glow.addColorStop(0, wash(0.055));
+      glow.addColorStop(1, wash(0));
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.font = `500 ${narrow ? 10 : 11}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = "rgba(255,255,255,0.6)";
+      ctx.font = `500 ${narrow ? 10 : 11}px "IBM Plex Mono", monospace`;
+      ctx.fillStyle = wash(0.6);
       ctx.textAlign = "left";
       ctx.fillText("INCOMING TRAFFIC", 18, 26);
       ctx.textAlign = "right";
@@ -254,7 +260,7 @@ export function ThroughputGame() {
       ctx.textAlign = "left";
 
       ctx.setLineDash([8, 8]);
-      ctx.strokeStyle = "rgba(255,255,255,0.42)";
+      ctx.strokeStyle = wash(0.42);
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       ctx.moveTo(0, ROUTER_Y);
@@ -262,8 +268,8 @@ export function ThroughputGame() {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.font = `500 ${narrow ? 10 : 11}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      ctx.font = `500 ${narrow ? 10 : 11}px "IBM Plex Mono", monospace`;
+      ctx.fillStyle = wash(0.55);
       ctx.fillText("ROUTER", 18, ROUTER_Y - 10);
     };
 
@@ -274,19 +280,19 @@ export function ThroughputGame() {
       const left = server.x - server.w / 2;
 
       if (target) {
-        ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        ctx.strokeStyle = wash(0.9);
         ctx.lineWidth = 1.5;
       } else {
-        ctx.strokeStyle = "rgba(255,255,255,0.3)";
+        ctx.strokeStyle = wash(0.3);
         ctx.lineWidth = 1;
       }
-      ctx.fillStyle = server.flash > 0 ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.015)";
+      ctx.fillStyle = wash(server.flash > 0 ? 0.07 : 0.015);
       roundRect(ctx, left, server.y, server.w, server.h, 10);
       ctx.fill();
       ctx.stroke();
 
-      ctx.font = `600 ${narrow ? 12 : 13}px "JetBrains Mono", monospace`;
-      ctx.fillStyle = full ? "#ffffff" : "rgba(255,255,255,0.7)";
+      ctx.font = `600 ${narrow ? 12 : 13}px "IBM Plex Mono", monospace`;
+      ctx.fillStyle = full ? ink : wash(0.7);
       ctx.textAlign = "left";
       ctx.fillText(`API-${server.id + 1}`, left + 12, server.y + 18);
       ctx.textAlign = "right";
@@ -300,11 +306,11 @@ export function ThroughputGame() {
       for (let i = 0; i < capacity; i += 1) {
         const slotX = left + 12 + i * (slotWidth + gap);
         if (i < server.active.length) {
-          ctx.fillStyle = "#ffffff";
+          ctx.fillStyle = ink;
           roundRect(ctx, slotX, slotY, slotWidth, slotHeight, 3);
           ctx.fill();
         } else {
-          ctx.strokeStyle = i === BASE_CAPACITY ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.16)";
+          ctx.strokeStyle = wash(i === BASE_CAPACITY ? 0.35 : 0.16);
           ctx.setLineDash(i === BASE_CAPACITY ? [4, 3] : []);
           roundRect(ctx, slotX, slotY, slotWidth, slotHeight, 3);
           ctx.stroke();
@@ -313,7 +319,7 @@ export function ThroughputGame() {
       }
 
       if (server.pulse > 0) {
-        ctx.strokeStyle = `rgba(255,255,255,${server.pulse * 0.5})`;
+        ctx.strokeStyle = wash(server.pulse * 0.5);
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(server.x, server.y + server.h / 2, server.w * (0.45 + (0.25 - server.pulse) * 1.2), 0, Math.PI * 2);
@@ -331,7 +337,7 @@ export function ThroughputGame() {
 
       const target = nearestServer(game.routerX);
 
-      ctx.strokeStyle = "rgba(255,255,255,0.18)";
+      ctx.strokeStyle = wash(0.18);
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(game.routerX, ROUTER_Y);
@@ -345,25 +351,25 @@ export function ThroughputGame() {
         const x = flow.x1 + (flow.x2 - flow.x1) * p;
         const y = flow.y1 + (flow.y2 - flow.y1) * p;
         ctx.globalAlpha = 1 - p;
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = ink;
         ctx.fillRect(x - 2, y - 2, 4, 4);
       }
       ctx.globalAlpha = 1;
 
       for (const request of game.requests) {
         const left = request.x - request.w / 2;
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = ink;
         roundRect(ctx, left, request.y, request.w, request.h, request.h / 2);
         ctx.fill();
-        ctx.fillStyle = "#000000";
-        ctx.font = `600 ${REQUEST_FONT}px "Inter", system-ui, sans-serif`;
+        ctx.fillStyle = paper;
+        ctx.font = `600 ${REQUEST_FONT}px "Archivo", system-ui, sans-serif`;
         ctx.textBaseline = "middle";
         ctx.fillText(request.label, left + (narrow ? 10 : 12), request.y + request.h / 2 + 0.5);
         ctx.textBaseline = "alphabetic";
       }
 
       const pulse = 0.5 + Math.sin(game.time * 4) * 0.5;
-      ctx.strokeStyle = `rgba(255,255,255,${0.35 + pulse * 0.35})`;
+      ctx.strokeStyle = wash(0.35 + pulse * 0.35);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(game.routerX, ROUTER_Y - 16);
@@ -374,11 +380,11 @@ export function ThroughputGame() {
       ctx.lineTo(game.routerX + 5, ROUTER_Y - 21);
       ctx.lineTo(game.routerX, ROUTER_Y - 14);
       ctx.closePath();
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = ink;
       ctx.fill();
 
       if (game.flash > 0) {
-        ctx.fillStyle = `rgba(255,255,255,${game.flash * 0.55})`;
+        ctx.fillStyle = wash(game.flash * 0.55);
         ctx.fillRect(0, 0, W, H);
       }
 
@@ -600,7 +606,7 @@ export function ThroughputGame() {
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [theme]);
 
   const overlayCopy =
     status === "over"
@@ -663,10 +669,10 @@ export function ThroughputGame() {
           />
 
           {status !== "running" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-6 text-center backdrop-blur-[2px]">
+            <div className="game-overlay absolute inset-0 flex flex-col items-center justify-center bg-black/70 px-6 text-center backdrop-blur-[2px]">
               <span className="eyebrow">{overlayCopy.eyebrow}</span>
               <h3 className="display-3 mt-3">{overlayCopy.title}</h3>
-              <p className="mt-3 max-w-[30rem] text-[14px] leading-[1.7] text-muted">{overlayCopy.body}</p>
+              <p className="game-overlay-body mt-3 max-w-[30rem] text-[14px] leading-[1.7] text-muted">{overlayCopy.body}</p>
               <button
                 type="button"
                 onClick={() => {
